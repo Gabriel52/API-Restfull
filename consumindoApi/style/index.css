@@ -1,0 +1,37 @@
+body{
+    background-color: rgb(223, 219, 219)  !important;
+    width: 100vw;
+    height: 100vh;
+}
+ /* NAV BAR */
+nav .navbar-collapse img{
+    width: 20%;
+    margin: 0 auto;
+}
+
+/* Contend */
+main{
+    width: 80%;
+    margin: 0 auto; 
+}
+
+/* Jumbotron */
+
+main .container .jumbotron{
+    margin-top:10% ;
+}
+
+/* CONTENT OF GAME */
+
+main h2{
+    text-align: center;
+}
+main .division{
+    background-color: rgb(226, 140, 140);
+}
+
+main .card-content{
+ 
+    width: 80%;
+    margin: 0 auto;
+}

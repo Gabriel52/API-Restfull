@@ -1,0 +1,22 @@
+body{
+    background-color: rgb(223, 219, 219)  !important;
+    width: 100vw;
+    height: 100vh;
+}
+
+.navbar-brand {
+    margin-left: 38%;
+}
+.navbar-brand img{
+    width: 70%;
+
+}
+main{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.card{
+    margin-top: 5%;
+    border-radius: 10px;
+}

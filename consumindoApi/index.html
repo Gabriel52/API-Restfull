@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games</title>
+    <link rel="stylesheet" href="./style/index.css">
+
+    <link rel="stylesheet" href="./bootstrap-4.5.2-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.9.0/dist/sweetalert2.all.min.js"></script>
+
+</head>
+<body>
+    <nav class="navbar navbar-dark navbar-expand-lg " style="background-image: linear-gradient(to right, tomato, purple);">
+       
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="navbarNavDropdown" >
+            <img src="./public/assets/icon.png" alt="">
+        </div>
+        
+    </nav>
+    <main>
+        <div class="container">
+            <div class="jumbotron">
+                <h1 class="display-4">Bem Vindo!</h1>
+                <p class="lead">Este é um blog feito em Node JS</p>
+                <hr class="my-4">
+                <p>Seja bem vindo ao Mundo dos Games, esta pagina esta em fase teste. O World gamer foi criado como uma pagina de busca para jogos. Aqui você pode encontrar o seu jogo favorito.</p>
+                
+                <a style="transition: 1s;" class="btn btn-outline-danger btn-lg" href="./pages/created.html" role="button">Criar</a>
+            </div>
+        </div>
+        <div class="login-content">
+            <div class="container">
+                <hr>
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h1 class="text-center">Login de Administrador</h1>
+                    </div>
+                    <div class="card-body">
+                
+                        <input id="email" class="form-control" name="email" type="email" placeholder="email@exemplo.com" ><br>
+                        <input id="password" class="form-control " type="password" name="password" placeholder="Digite sua senha..."><br>
+                        <button onclick="login()" class="btn btn-outline-danger btn-block" style="transition: 1s;">Logar</button>
+            
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Listagem de Jogos</h2>
+        <hr class="division">
+        <div class="content">
+            <div class="games" id="game">
+ 
+                <div class="Linha" style="width:600px;">
+              
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+    var axiosConfig = {
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    }
+
+
+    function login(){
+        var email = document.getElementById("email").value
+        var password = document.getElementById("password").value
+
+        console.log(email, password)
+
+        axios.post("http://localhost:3000/auth",{
+            email,
+            password
+        }).then(data =>{
+            var token = data.data.token
+            localStorage.setItem("token",token)
+            window.location.reload(true);
+
+        }).catch(error =>{
+            console.log(error)
+        })
+
+    }
+
+    $(document).ready(function(){
+        var card = $('.games');
+        var btnCriar = $('#criarLinha');
+   
+
+        // Realizando o GET - axios
+        axios.get('http://localhost:3000/games', axiosConfig).then(data =>{
+            console.log(data.data.data.length)
+        
+
+            for (var c  = 0; c < data.data.data.length; c++) {
+            var game = data.data.data[c]
+
+            console.log("passou por aqui")
+                card.append(
+                    `<div class='card mt-5' >  <div data-id= ${game.id} data-title=${game.title} data-price=${game.price} data-year=${game.year}  class='card-footer'><h5> ${game.title} </h5></div> <div class='card-body'> <h4> Preço: ${game.price} R$ </h4></br> <h4> Ano: ${game.year}</h4> <br><button onclick='deleteGame(${game.id})' >Deletar</button> </div> </div>`
+                    );
+            }
+        }).catch(error =>{
+            console.log(error)
+        })
+
+    });
+
+    var btnDeletar = document.getElementsByClassName('button')
+    console.log(btnDeletar)
+    function deleteGame(listItem){
+        console.log(listItem)
+        axios.delete(`http://localhost:3000/games/${listItem}`, axiosConfig ).then(response =>{
+            window.location.reload(true);
+        }).cath(error =>{    
+            console.log(error)
+        })
+    }
+  
+</script>
+</html>
+
+
+
+<!-- <div class="card">
+
+    <div class="card-footer">
+        <h5>David Pereira da Silva</h5>
+    </div>
+    <div class="card-body">
+        <p>Email: david.devops2000@gmail.com</p><br>
+        <p>Telefone: 920094247</p><br>
+        <p>CPF: 42824662867</p><br>
+        <p>Departamento: 9</p><br>
+
+        <a href="/editar/5" class="btn btn-primary">Editar</a>
+    </div>
+</div> -->
